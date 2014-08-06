@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file soc_js_slide.module
+ * TODO: Enter file description here.
+ */
+
+define('SOC_JS_SLIDER_TITLE','SoC JS Slider ');
+define('SOC_JS_SLIDER_DESC', '[slideshow:#DIVID] Produces javascript for slideshow from the specified element ID given. ');
+define('SOC_JS_SLIDER_FILTER_NAME', 'soc_js_slider_filter');
+define('SOC_JS_SLIDER_JS_FILE_SRC', 'soc_js_slider.js');
+
+
+/**
+ * Implements hook_filter_info().
+ */
+function soc_js_slider_filter_info() {
+  $filters[SOC_JS_SLIDER_FILTER_NAME] = array(
+    'title' => t(SOC_JS_SLIDER_TITLE),
+    'description' => t(SOC_JS_SLIDER_DESC),
+    'process callback' => '_soc_js_slider_process',
+  );
+
+  return $filters;
+}
+
+
+function _soc_js_slider_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+
+
+  preg_match_all("/\[slideshow:(#[\S]+)\]/", $text, $matches);
+
+  // If no match return and be done.
+  if (! isset($matches[1])) {
+    return $text;
+  }
+
+  // gather information
+  $text_to_remove   = $matches[0];
+  $elementid        = $matches[1];
+
+  // remove filter trigger text
+  $text = str_replace($text_to_remove, '', $text);
+
+  // TODO: Inject javascript file
+  drupal_add_js(drupal_get_path('module', 'soc_js_slider') . '/' . SOC_JS_SLIDER_JS_FILE_SRC, 'file');
+
+  drupal_add_js('jQuery(document).ready(function () { a = new SlideShow("#slideshow"); a.init(); ; });', 'inline');
+
+
+  return $text;
+}

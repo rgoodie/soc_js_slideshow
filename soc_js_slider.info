@@ -1,0 +1,4 @@
+name = SoC JS Slider
+description = Field Formatter to create a slideshow.
+package = Soc
+core = 7.x
