@@ -33,7 +33,7 @@ function soc_js_slider_permission() {
  * Implements hook_menu().
  */
 function soc_js_slider_menu() {
-  $items['admin/soc/slider'] = array(
+  $items['admin/config/soc/slider'] = array(
     'title' => 'Slider Options',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_soc_js_slider_settings'),
