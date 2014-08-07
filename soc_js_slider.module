@@ -125,6 +125,8 @@ function _soc_js_slider_process($text, $filter, $format, $langcode, $cache, $cac
     return $text;
   }
 
+
+
   // gather information
   $text_to_remove   = $matches[0];
   $elementid        = $matches[1];
@@ -132,23 +134,26 @@ function _soc_js_slider_process($text, $filter, $format, $langcode, $cache, $cac
   // remove filter trigger text
   $text = str_replace($text_to_remove, '', $text);
 
-  // Inject javascript file
-  drupal_add_js(drupal_get_path('module', 'soc_js_slider') . '/' . SOC_JS_SLIDER_JS_FILE_SRC, 'file');
 
-  // TODO:  Inject options into a javascript variable
-  $js_slider_options = array(
-    'first'=>variable_get('soc_js_slider_control_first', SOC_JS_SLIDER_HTML_CTRL_FIRST),
-    'prev'=>variable_get('soc_js_slider_control_prev', SOC_JS_SLIDER_HTML_CTRL_PREV),
-    'next'=>variable_get('soc_js_slider_control_next', SOC_JS_SLIDER_HTML_CTRL_NEXT),
-    'last'=>variable_get('soc_js_slider_control_last', SOC_JS_SLIDER_HTML_CTRL_LAST),
-    'ctnl_placement'=>variable_get('soc_js_slider_control_placement', SOC_JS_SLIDER_HTML_CONTROL_PLACEMENT)
+  // Do we have any matches located in the firs match
+  if (isset($elementid[0])) {
+    // Inject javascript file
+    drupal_add_js(drupal_get_path('module', 'soc_js_slider') . '/' . SOC_JS_SLIDER_JS_FILE_SRC, 'file');
 
-  );
-  drupal_add_js(array('soc_js_slider'=>$js_slider_options), 'setting');
+    // Inject options into a javascript variable
+    $js_slider_options = array(
+      'first'=>variable_get('soc_js_slider_control_first', SOC_JS_SLIDER_HTML_CTRL_FIRST),
+      'prev'=>variable_get('soc_js_slider_control_prev', SOC_JS_SLIDER_HTML_CTRL_PREV),
+      'next'=>variable_get('soc_js_slider_control_next', SOC_JS_SLIDER_HTML_CTRL_NEXT),
+      'last'=>variable_get('soc_js_slider_control_last', SOC_JS_SLIDER_HTML_CTRL_LAST),
+      'ctnl_placement'=>variable_get('soc_js_slider_control_placement', SOC_JS_SLIDER_HTML_CONTROL_PLACEMENT)
 
-  // Call it
-  drupal_add_js('jQuery(document).ready(function () { a = new SlideShow("#slideshow"); a.init(); ; });', 'inline');
+    );
+    drupal_add_js(array('soc_js_slider'=>$js_slider_options), 'setting');
 
+    // Call it
+    drupal_add_js('jQuery(document).ready(function () { a = new SlideShow("' . $elementid[0] . '"); a.init(); });', 'inline');
+  }
 
   return $text;
 }
