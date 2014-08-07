@@ -12,7 +12,7 @@ To Install
 
 To Configure
 ============
-- Set options in `admin/soc/slider` to set where control placement and what is used as first, previous, next, and last text or images.
+- Set where control placement and what is used as first, previous, next, and last text or images.
 
 On Node
 =======
