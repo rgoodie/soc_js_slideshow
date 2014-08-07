@@ -13,7 +13,7 @@ To Install
 
 On Node
 =======
-In the body content area, populate a <div> with <img> and add the filter trigger `[slideshow:#divid]`.
+In the body content area, populate a `<div>` with `<img>` tags and add the filter trigger `[slideshow:#divid]`.
 ```
 [slideshow:#slideshow]
 <div id="slideshow"><img class="active" src="/sites/default/files/utopia-imports/images/epics/icm/normal/Epics_ICS_001.jpg">
