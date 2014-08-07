@@ -29,5 +29,6 @@ In the body content area, populate a `<div>` with `<img>` tags and add the filte
 </div>
 ```
 Requires
+========
 - Drupal 7
 - jQuery
