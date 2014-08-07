@@ -8,40 +8,96 @@ function SlideShow(parentContainerId) {
     this.END        = 'End of list';
     this.FIRSTINDEX = 0;
 
-    this.length     = jQuery(parentContainerId + ' img').length;
+    this.CONTAINER_CSS = ' width: 100%;';
+    this.IMG_CSS    = ' max-width: 100%; margin-left: auto; margin-right: auto; display:block;';
+
+    this.CTRL_HTML  =   '<div style="'+ this.CONTAINER_CSS + '"> ' +
+                        '<span id="soc_js_controll_container" style="text-align:center;' + this.IMG_CSS + '">' +
+                        '<span class="first">' + Drupal.settings.soc_js_slider.first + '</span> ' +
+                        '<span class="prev">' + Drupal.settings.soc_js_slider.prev + '</span> ' +
+                        '<span class="indicator"></span>' +
+                        '<span class="next">' + Drupal.settings.soc_js_slider.next + '</span> ' +
+                        '<span class="last">' + Drupal.settings.soc_js_slider.last + '</span>' +
+                        '</span></div>';
+
+    this.ctnl_placement = Drupal.settings.soc_js_slider.ctnl_placement;
+
+    this.length     = jQuery(parentContainerId + ' img').length - 1;
     this.container  = jQuery(parentContainerId);
     this.imgs       = jQuery(parentContainerId + ' img');
     this.index      = this.FIRSTINDEX;
-    this.status     = 'beginning';           // beginning, end
+    this.status     = this.BEGINNING;           // beginning, end
 
+
+    // Set up a variable by which to overcome the 'this' confusion in nested
+    // clousures.
+    self = this;
 
 
     this.init = function() {
+
         // get it started
         this.moveTo(this.FIRSTINDEX);
         this.process();
 
-        // get object scope
-        var parent      = this;
-
         // set up click listener
-        this.container.find('img').click(function(e) {
+        this.container.click(function(e) {
             var item_width = jQuery(this).width();
             var x_click_ps = e.clientX - jQuery(this).offset().left;
             var x_diff     = x_click_ps / item_width;
 
-
-
-
             console.log(this);
             if (x_diff < .5) {
-                parent.moveByIncrement(-1)
-                parent.process();
+                self.moveByIncrement(-1)
+                self.process();
             } else {
-                parent.moveByIncrement(1);
-                parent.process();
+                self.moveByIncrement(1);
+                self.process();
             }
 
+        });
+
+        // set up initial CSS
+        self.container.attr('style', self.CONTAINER_CSS);
+
+        // set up controls
+        this.controls();
+
+        // hook into the process method
+        this.process();
+
+    }
+
+    this.controls = function() {
+
+        // Where to place controls?
+        if (this.ctnl_placement == 0) {
+            self.container.prepend(self.CTRL_HTML);
+        } else if (this.ctnl_placement == 1) {
+            self.container.append(self.CTRL_HTML);
+        } else {
+            // no controls
+        }
+
+        // first button
+        jQuery('#soc_js_controll_container .first').click(function() {
+            self.moveTo(self.FIRSTINDEX);
+            self.process();
+        });
+         // first button
+        jQuery('#soc_js_controll_container .prev').click(function() {
+            self.moveByIncrement(-1);
+            self.process();
+        });
+         // first button
+        jQuery('#soc_js_controll_container .first').click(function() {
+            self.moveByIncrement(1);
+            self.process();
+        });
+         // first button
+        jQuery('#soc_js_controll_container .last').click(function() {
+            self.moveTo(self.length);
+            self.process();
         });
     }
 
@@ -81,7 +137,9 @@ function SlideShow(parentContainerId) {
 
     this.process = function() {
         jQuery(this.imgs).hide();
-        jQuery(this.returnChild()).show();
+        jQuery(this.returnChild()).attr('style', self.IMG_CSS ).show('fast');
+        jQuery('#soc_js_controll_container .indicator').html(' [' + (this.index+1) + ' of ' + (this.length+1) + '] ');
+
     }
 }
 
