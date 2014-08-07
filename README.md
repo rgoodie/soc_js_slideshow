@@ -8,8 +8,11 @@ To Install
 ==========
 - Git clone this repo into `sites/all/modules`
 - Set Administer soc js slideshow permission 
-- Set options in `admin/soc/slider`
 - Turn on the Input filter 
+
+To Configure
+============
+- Set options in `admin/soc/slider` to set where control placement and what is used as first, previous, next, and last text or images.
 
 On Node
 =======
