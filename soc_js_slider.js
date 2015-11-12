@@ -4,18 +4,23 @@
 * The jQuery ODR caller moved to be self enclosed
 * */
 
-jQuery(function() {
+jQuery(document).ready(function() {
 
 
     a = [];
 
-    // Loop through settings Drupal.settings.soc_js_slider.element_zero_collection
-    // to see if there are any element ids that need to be converted to a slide show.
-    for (var i=0; i < Drupal.settings.soc_js_slider.element_zero_collection.length; i++) {
-        var element_id = Drupal.settings.soc_js_slider.element_zero_collection[i];
-        a[i] = new SlideShow(element_id);
-        a[i].init();
+    // does the object even exist?
+    if (typeof Drupal.settings.soc_js_slider !='undefined') {
 
+        // Loop through settings Drupal.settings.soc_js_slider.element_zero_collection
+        // to see if there are any element ids that need to be converted to a slide show.
+        for (var i = 0; i < Drupal.settings.soc_js_slider.element_zero_collection.length; i++) {
+            var element_id = Drupal.settings.soc_js_slider.element_zero_collection[i];
+            a[i] = new SlideShow(element_id);
+            a[i].init();
+
+
+        }
     }
 });
 
