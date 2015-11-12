@@ -6,12 +6,15 @@
 
 jQuery(function() {
 
+
+    a = [];
+
     // Loop through settings Drupal.settings.soc_js_slider.element_zero_collection
     // to see if there are any element ids that need to be converted to a slide show.
     for (var i=0; i < Drupal.settings.soc_js_slider.element_zero_collection.length; i++) {
         var element_id = Drupal.settings.soc_js_slider.element_zero_collection[i];
-        a = new SlideShow(element_id);
-        a.init();
+        a[i] = new SlideShow(element_id);
+        a[i].init();
 
     }
 });
@@ -99,24 +102,29 @@ function SlideShow(parentContainerId) {
         }
 
         // first button
-        jQuery('#soc_js_controll_container .first').click(function() {
+        jQuery('#soc_js_controll_container .first').click(function(event) {
             self.moveTo(self.FIRSTINDEX);
             self.process();
+            event.stopPropagation();
+
         });
          // first button
-        jQuery('#soc_js_controll_container .prev').click(function() {
+        jQuery('#soc_js_controll_container .prev').click(function(event) {
             self.moveByIncrement(-1);
             self.process();
+            event.stopPropagation();
         });
          // first button
-        jQuery('#soc_js_controll_container .first').click(function() {
+        jQuery('#soc_js_controll_container .next').click(function(event) {
             self.moveByIncrement(1);
             self.process();
+            event.stopPropagation();
         });
          // first button
-        jQuery('#soc_js_controll_container .last').click(function() {
+        jQuery('#soc_js_controll_container .last').click(function(event) {
             self.moveTo(self.length);
             self.process();
+            event.stopPropagation();
         });
     }
 
@@ -124,8 +132,14 @@ function SlideShow(parentContainerId) {
 
     this.moveByIncrement = function(n) {
 
+
+        console.log('old index ' + this.index);
+        console.log('new index ' + (this.index +n) );
+
         // [in|de]crese
         this.index =  this.checkBounds(this.index + n);
+
+
 
         // return child
         return this.returnChild()
