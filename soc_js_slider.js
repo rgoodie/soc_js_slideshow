@@ -1,5 +1,21 @@
 
 
+/*
+* The jQuery ODR caller moved to be self enclosed
+* */
+
+jQuery(function() {
+
+    // Loop through settings Drupal.settings.soc_js_slider.element_zero_collection
+    // to see if there are any element ids that need to be converted to a slide show.
+    for (var i=0; i < Drupal.settings.soc_js_slider.element_zero_collection.length; i++) {
+        var element_id = Drupal.settings.soc_js_slider.element_zero_collection[i];
+        a = new SlideShow(element_id);
+        a.init();
+
+    }
+});
+
 
 /* Slide Show object */
 function SlideShow(parentContainerId) {
@@ -8,16 +24,19 @@ function SlideShow(parentContainerId) {
     this.END        = 'End of list';
     this.FIRSTINDEX = 0;
 
-    this.CONTAINER_CSS = ' width: 100%;';
-    this.IMG_CSS    = ' max-width: 100%; margin-left: auto; margin-right: auto; display:block;';
+    this.CONTAINER_CSS = ' width: 100%; ';
+    this.IMG_CSS    = ' max-width: 100%; margin-left: auto; margin-right: auto; display:block; cursor: pointer ';
+    this.SPAN_CSS   = "cursor: pointer;"
+
+
 
     this.CTRL_HTML  =   '<div style="'+ this.CONTAINER_CSS + '"> ' +
                         '<span id="soc_js_controll_container" style="text-align:center;' + this.IMG_CSS + '">' +
-                        '<span class="first">' + Drupal.settings.soc_js_slider.first + '</span> ' +
-                        '<span class="prev">' + Drupal.settings.soc_js_slider.prev + '</span> ' +
-                        '<span class="indicator"></span>' +
-                        '<span class="next">' + Drupal.settings.soc_js_slider.next + '</span> ' +
-                        '<span class="last">' + Drupal.settings.soc_js_slider.last + '</span>' +
+                        '<span class="first" style="' + this.SPAN_CSS + '">' + Drupal.settings.soc_js_slider.first + '</span> ' +
+                        '<span class="prev"  style="' + this.SPAN_CSS + '">' + Drupal.settings.soc_js_slider.prev + '</span> ' +
+                        '<span class="indicator" style="vertical-align: top;"></span>' +
+                        '<span class="next"  style="' + this.SPAN_CSS + '">' + Drupal.settings.soc_js_slider.next + '</span> ' +
+                        '<span class="last"  style="' + this.SPAN_CSS + '">' + Drupal.settings.soc_js_slider.last + '</span>' +
                         '</span></div>';
 
     this.ctnl_placement = Drupal.settings.soc_js_slider.ctnl_placement;

@@ -3,3 +3,4 @@ description = Field Formatter to create a slideshow.
 package = Soc
 core = 7.x
 configure = admin/config/soc/slider
+scripts[]=soc_js_slider.js
